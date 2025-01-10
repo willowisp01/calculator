@@ -36,8 +36,38 @@ function updateDisplay(content) {
 const numQueue = [];  //enq: queue.push(), deq: queue.shift();
 const opQueue = []; 
 
+// Higher order function to calculate result based on queued numbers and ops. 
+// This only dequeues from the queues. You have to enq the result later. 
+function calculate() {
+    let a = numQueue.shift();
+    let b = numQueue.shift();
+    let op = opQueue.shift();
+    let result; 
+    switch (op) {
+        case '+':
+            result = add(a, b);
+            break;
+        case '-':
+            result = subtract(a, b); 
+            break;
+        case '*':
+            result = multiply(a, b);
+            break;
+        case '/':
+            result = divide(a, b); //TODO: handle divide by 0
+            break;
+    }
+    return result;
+}
+
+
+// FYI: event.target is a DOM element. (with attributes and methods: https://www.w3schools.com/jsreF/dom_obj_all.asp)
 // parses the inputs (and calls the needed functions)
 function parse(event) {
+    let result;
+    // console.log("//////////////")
+    // console.log(numQueue);
+    // console.log(opQueue);
     // parse number
     if (event.target.classList.contains("numeral")) {
         rawInput += event.target.textContent; 
@@ -48,30 +78,18 @@ function parse(event) {
         rawInput = ""; 
         opQueue.push(event.target.textContent);
         if (numQueue.length >= 2) { // have 2 numbers to perform a calculation 
-            let a = numQueue.shift();
-            let b = numQueue.shift();
-            let op = opQueue.shift();
-            let result; 
-            // console.log(a);
-            // console.log(b);
-            // console.log(op);
-            switch (op) {
-                case '+':
-                    result = add(a, b);
-                    break;
-                case '-':
-                    result = subtract(a, b); 
-                    break;
-                case '*':
-                    result = multiply(a, b);
-                    break;
-                case '/':
-                    result = divide(a, b); //TODO: handle divide by 0\
-                    break;
-            }
+            result = calculate();
             numQueue.push(result);
             updateDisplay(result);
         } 
+    } else if (event.target.id == "evaluate" && opQueue.length > 0 && numQueue.length > 0) {
+        console.log("hi")
+        numQueue.push(+rawInput);
+        result = calculate();
+        // we don't directly put result into numQueue, leave that to the upper logic.  
+        // rather, update the rawInput to make sure subsequent operations work. 
+        rawInput = "" + result; 
+        updateDisplay(result);
     }
 }
 
