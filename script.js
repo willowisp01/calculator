@@ -16,3 +16,25 @@ function divide(a, b) {
     }
     return a / b;
 }
+
+// unparsed (yet) numbers
+let rawInput = ""; 
+
+const inputPad = document.querySelector("#inputs");
+inputPad.addEventListener("click", parse);
+
+const display = document.querySelector("#display");
+
+// updates the displayed content 
+function updateDisplay(content) {
+    display.textContent = content; 
+}
+
+// parses the inputs (and calls the needed functions)
+function parse(event) {
+    if (event.target.classList.contains("numeral")) {
+        rawInput += event.target.textContent; 
+        updateDisplay(rawInput);
+    }
+}
+
