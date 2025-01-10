@@ -60,15 +60,17 @@ function calculate() {
     return result;
 }
 
+function allClear() {
+    rawInput = "";
+    numQueue.length = 0;
+    opQueue.length = 0;
+    updateDisplay("");
+}
 
 // FYI: event.target is a DOM element. (with attributes and methods: https://www.w3schools.com/jsreF/dom_obj_all.asp)
 // parses the inputs (and calls the needed functions)
 function parse(event) {
     let result;
-    // console.log("//////////////")
-    // console.log(numQueue);
-    // console.log(opQueue);
-    // parse number
     if (event.target.classList.contains("numeral")) {
         rawInput += event.target.textContent; 
         updateDisplay(rawInput);
@@ -90,6 +92,8 @@ function parse(event) {
         // rather, update the rawInput to make sure subsequent operations work. 
         rawInput = "" + result; 
         updateDisplay(result);
+    } else if (event.target.id == "AC") {
+        allClear();
     }
 }
 
