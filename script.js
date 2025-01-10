@@ -19,6 +19,7 @@ function divide(a, b) {
 
 // unparsed (yet) numbers
 let rawInput = ""; 
+let equalPressed = false;
 
 const inputPad = document.querySelector("#inputs");
 inputPad.addEventListener("click", parse);
@@ -72,6 +73,10 @@ function allClear() {
 function parse(event) {
     let result;
     if (event.target.classList.contains("numeral")) {
+        // after a previous equal is pressed, when entering a new numeral, reset. 
+        if (equalPressed) {
+            allClear();
+        }
         rawInput += event.target.textContent; 
         updateDisplay(rawInput);
     } else if (event.target.classList.contains("operation") && (rawInput != "")) {
@@ -85,15 +90,24 @@ function parse(event) {
             updateDisplay(result);
         } 
     } else if (event.target.id == "evaluate" && opQueue.length > 0 && numQueue.length > 0) {
-        console.log("hi")
+        equalPressed = true;
         numQueue.push(+rawInput);
         result = calculate();
         // we don't directly put result into numQueue, leave that to the upper logic.  
         // rather, update the rawInput to make sure subsequent operations work. 
         rawInput = "" + result; 
         updateDisplay(result);
+        return;
     } else if (event.target.id == "AC") {
         allClear();
     }
+
+    // at the end of a button press, unless equal was pressed, equalPressed should be false. 
+    equalPressed = false;
+
+    // console.log("State after pressing button:")
+    // console.log("Numqueue", numQueue);
+    // console.log("Opqueue", opQueue);
+    // console.log("Raw input: " + rawInput);
 }
 
