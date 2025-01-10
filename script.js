@@ -55,7 +55,8 @@ function calculate() {
             result = multiply(a, b);
             break;
         case '/':
-            result = divide(a, b); //TODO: handle divide by 0
+            temp = divide(a, b); 
+            result = Number.isFinite(temp) ? temp : "Error: Division by Zero"
             break;
     }
     return result;
