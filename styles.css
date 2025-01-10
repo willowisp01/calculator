@@ -1,0 +1,57 @@
+
+
+#display {
+    display: flex;
+    box-sizing: border-box;
+    align-items: center;
+    width: 400px; 
+    height: 125px;
+    border: 2px solid black;
+    padding: 5px;
+    background-color: lightslategray;
+    font-size: 36px;
+}
+
+#inputs {
+    width: 400px;
+    display: flex;
+    font-size: 36px;
+}
+
+#left-inputs {
+    flex: 1 0 75%;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+#left-inputs > div,
+#right-inputs > div {
+    display: flex;
+    height: 100px;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+    border: 2px solid black;
+}
+
+#right-inputs {
+    flex: 1 0 25%;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.width-1 {
+    flex: 1 0 calc(100% / 3);
+}
+
+.width-2 {
+    flex: 1 0 calc(100% * 2 / 3);
+}
+
+.width-3 {
+    flex: 1 0 100%;
+}
+
+.operation {
+    flex: 1 0 100%;
+}
