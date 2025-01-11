@@ -21,8 +21,11 @@ function divide(a, b) {
 let rawInput = ""; 
 let equalPressed = false;
 
-const inputPad = document.querySelector("#inputs");
-inputPad.addEventListener("click", parse);
+const body = document.querySelector("body");
+body.addEventListener("click", parse);
+
+// const inputPad = document.querySelector("#inputs");
+// inputPad.addEventListener("click", parse);
 
 const display = document.querySelector("#display");
 
@@ -90,14 +93,23 @@ function parse(event) {
             numQueue.push(result);
             updateDisplay(result);
         } 
-    } else if (event.target.id == "evaluate" && opQueue.length > 0 && numQueue.length > 0) {
+    } else if (event.target.id == "evaluate") {
         equalPressed = true;
-        numQueue.push(+rawInput);
-        result = calculate();
-        // we don't directly put result into numQueue, leave that to the upper logic.  
-        // rather, update the rawInput to make sure subsequent operations work. 
-        rawInput = "" + result; 
-        updateDisplay(result);
+        if (opQueue.length > 0 && numQueue.length > 0) {
+            numQueue.push(+rawInput);
+            result = calculate();
+            // we don't directly put result into numQueue, leave that to the upper logic.  
+            // rather, update the rawInput to make sure subsequent operations work. 
+            rawInput = "" + result; 
+            updateDisplay(result);
+        }
+
+        console.log("State after pressing button:")
+        console.log("Numqueue", numQueue);
+        console.log("Opqueue", opQueue);
+        console.log("Raw input: " + rawInput);
+        console.log("Equals Pressed: " + equalPressed);
+        
         return;
     } else if (event.target.id == "AC") {
         allClear();
@@ -106,9 +118,10 @@ function parse(event) {
     // at the end of a button press, unless equal was pressed, equalPressed should be false. 
     equalPressed = false;
 
-    // console.log("State after pressing button:")
-    // console.log("Numqueue", numQueue);
-    // console.log("Opqueue", opQueue);
-    // console.log("Raw input: " + rawInput);
+    console.log("State after pressing button:")
+    console.log("Numqueue", numQueue);
+    console.log("Opqueue", opQueue);
+    console.log("Raw input: " + rawInput);
+    console.log("Equals Pressed: " + equalPressed);
 }
 
