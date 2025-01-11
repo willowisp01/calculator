@@ -77,7 +77,7 @@ function parse(event) {
     let result;
     if (event.target.classList.contains("numeral")) {
         // after a previous equal is pressed, when entering a new numeral, reset. 
-        if (equalPressed) {
+        if (equalPressed && opQueue.length == 0) {
             allClear();
         }
         // no duplicate dots
