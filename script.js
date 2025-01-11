@@ -80,8 +80,11 @@ function parse(event) {
         if (equalPressed) {
             allClear();
         }
-        rawInput += event.target.textContent; 
-        updateDisplay(rawInput);
+        // no duplicate dots
+        if (!(rawInput.length > 0 && rawInput.includes(".") && event.target.textContent === ".")) {
+            rawInput += event.target.textContent; 
+            updateDisplay(rawInput);
+        }
     } else if (event.target.classList.contains("operation") && (rawInput != "")) {
         // always parse number typed before the operation, and push op and number to respective queues
         numQueue.push(+rawInput);
@@ -94,7 +97,8 @@ function parse(event) {
         } 
     } else if (event.target.id == "evaluate") {
         equalPressed = true;
-        if (opQueue.length > 0 && numQueue.length > 0) {
+        // if possible to evaluate something
+        if (opQueue.length > 0 && numQueue.length > 0 && rawInput != "") {
             numQueue.push(+rawInput);
             result = calculate();
             // we don't directly put result into numQueue, leave that to the upper logic.  
