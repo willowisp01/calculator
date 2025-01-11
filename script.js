@@ -78,7 +78,7 @@ function parse(event) {
     let result;
     if (event.target.classList.contains("numeral")) {
         // after a previous equal is pressed, when entering a new numeral, reset. 
-        if (equalPressed) {
+        if (equalPressed && opQueue.length == 0) {
             allClear();
         }
         rawInput += event.target.textContent; 
@@ -95,15 +95,15 @@ function parse(event) {
         } 
     } else if (event.target.id == "evaluate") {
         equalPressed = true;
-        if (opQueue.length > 0 && numQueue.length > 0) {
+        // if able to evaluate something
+        if (opQueue.length > 0 && numQueue.length > 0 && rawInput != "") {
             numQueue.push(+rawInput);
             result = calculate();
             // we don't directly put result into numQueue, leave that to the upper logic.  
             // rather, update the rawInput to make sure subsequent operations work. 
             rawInput = "" + result; 
             updateDisplay(result);
-        }
-
+        } 
         console.log("State after pressing button:")
         console.log("Numqueue", numQueue);
         console.log("Opqueue", opQueue);
