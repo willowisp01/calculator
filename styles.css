@@ -52,6 +52,6 @@
     flex: 1 0 100%;
 }
 
-.operation {
+#right-inputs > div {
     flex: 1 0 100%;
 }
