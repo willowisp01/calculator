@@ -1,3 +1,11 @@
+:root {
+    --calculator-body: #4D4849;
+    --display: #D0E8DC;
+    --button: #E6B04A;
+    --button-down: #e6c281;
+    --margin-size: 2px;
+}
+
 body {
     height: 100vh;
     display: flex;
@@ -5,21 +13,33 @@ body {
     align-items: center;
 }
 
+#calculator {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;  /* between display and button pad */
+    width: 500px;
+    padding: 20px 20px;
+    background-color: var(--calculator-body);
+    border: 2px solid black;
+    border-radius: 10px;
+}
+
 #display {
     display: flex;
     box-sizing: border-box;
     align-items: center;
-    width: 400px; 
     height: 125px;
     padding: 5px;
     border: 2px solid black;
-    background-color: lightslategray;
+    border-radius: 5px;
+    margin: var(--margin-size);
+    background-color: var(--display);
     font-size: 36px;
     font-family: Arial;
 }
 
 #inputs {
-    width: 400px;
+    flex: 0 0 400px;
     display: flex;
 }
 
@@ -42,28 +62,35 @@ body {
     justify-content: center;
     align-items: center;
     box-sizing: border-box;
+    margin: var(--margin-size);
     border: 2px solid black;
+    border-radius: 10px;
     font-size: 36px;
+    background-color: var(--button);
 }
 
 #left-inputs > button:active,
 #right-inputs > button:active {
-    background-color: rgb(128, 128, 128); /* Darken the background when clicked */
+    background-color: var(--button-down); 
 }
 
 #right-inputs > button {
     flex: 1 0 100%;
 }
 
+#right-inputs > .width-1 {
+    flex: 1 0 calc(100% - 2 * var(--margin-size));
+}
+
 .width-1 {
-    flex: 1 0 calc(100% / 3);
+    flex: 1 0 calc(100% / 3 - 2 * var(--margin-size));
 }
 
 .width-2 {
-    flex: 1 0 calc(100% * 2 / 3);
+    flex: 1 0 calc(100% * 2 / 3 - 2 * var(--margin-size));
 }
 
 .width-3 {
-    flex: 1 0 100%;
+    flex: 1 0 calc(100% - 2 * var(--margin-size));
 }
 
