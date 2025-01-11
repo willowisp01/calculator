@@ -1,3 +1,23 @@
+// VARIABLES
+
+let rawInput = ""; // half-typed numerals (e.g. I want 111, but only typed 11 so far)
+let equalPressed = false;
+
+const body = document.querySelector("body");
+const display = document.querySelector("#display");
+
+
+// EVENT LISTENERS
+
+body.addEventListener("click", parse);
+
+
+// FUNCTIONS 
+
+// storing the previous numbers and ops
+const numQueue = [];  //enq: queue.push(), deq: queue.shift();
+const opQueue = []; 
+
 function add(a, b) {
     return a + b; 
 }
@@ -11,34 +31,13 @@ function multiply(a, b) {
 }
 
 function divide(a, b) {
-    // if (b === 0) {
-    //     throw new Error('Cannot divide by zero!!!');
-    // }
     return a / b;
 }
-
-// unparsed (yet) numbers
-let rawInput = ""; 
-let equalPressed = false;
-
-const body = document.querySelector("body");
-body.addEventListener("click", parse);
-
-// const inputPad = document.querySelector("#inputs");
-// inputPad.addEventListener("click", parse);
-
-const display = document.querySelector("#display");
 
 // updates the displayed content 
 function updateDisplay(content) {
     display.textContent = content; 
 }
-
-// makes a calculation using que
-
-// storing the previous numbers and ops
-const numQueue = [];  //enq: queue.push(), deq: queue.shift();
-const opQueue = []; 
 
 // Higher order function to calculate result based on queued numbers and ops. 
 // This only dequeues from the queues. You have to enq the result later. 
@@ -81,8 +80,11 @@ function parse(event) {
         if (equalPressed && opQueue.length == 0) {
             allClear();
         }
-        rawInput += event.target.textContent; 
-        updateDisplay(rawInput);
+        // no duplicate dots
+        if (!(rawInput.length > 0 && rawInput.includes(".") && event.target.textContent === ".")) {
+            rawInput += event.target.textContent; 
+            updateDisplay(rawInput);
+        }
     } else if (event.target.classList.contains("operation") && (rawInput != "")) {
         // always parse number typed before the operation, and push op and number to respective queues
         numQueue.push(+rawInput);
@@ -95,7 +97,7 @@ function parse(event) {
         } 
     } else if (event.target.id == "evaluate") {
         equalPressed = true;
-        // if able to evaluate something
+        // if possible to evaluate something
         if (opQueue.length > 0 && numQueue.length > 0 && rawInput != "") {
             numQueue.push(+rawInput);
             result = calculate();
@@ -103,25 +105,13 @@ function parse(event) {
             // rather, update the rawInput to make sure subsequent operations work. 
             rawInput = "" + result; 
             updateDisplay(result);
-        } 
-        console.log("State after pressing button:")
-        console.log("Numqueue", numQueue);
-        console.log("Opqueue", opQueue);
-        console.log("Raw input: " + rawInput);
-        console.log("Equals Pressed: " + equalPressed);
-        
-        return;
+        }
+        return; // to ensure equalPressed is not reset to false
     } else if (event.target.id == "AC") {
         allClear();
     }
 
     // at the end of a button press, unless equal was pressed, equalPressed should be false. 
     equalPressed = false;
-
-    console.log("State after pressing button:")
-    console.log("Numqueue", numQueue);
-    console.log("Opqueue", opQueue);
-    console.log("Raw input: " + rawInput);
-    console.log("Equals Pressed: " + equalPressed);
 }
 
